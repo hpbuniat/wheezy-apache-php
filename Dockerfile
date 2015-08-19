@@ -45,7 +45,7 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 COPY apache2/apache2.conf /etc/apache2/sites-enabled/000-default
 COPY apache2/ports.conf /etc/apache2/ports.conf
 
-EXPOSE 80
+EXPOSE 80 8080
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD ["/usr/bin/supervisord"]
