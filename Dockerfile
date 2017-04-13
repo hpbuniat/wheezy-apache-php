@@ -13,6 +13,7 @@ RUN echo "deb http://dotdeb.netmirror.org/ wheezy all" >> /etc/apt/source.list &
     apt-key add dotdeb.gpg && \
     apt-get update -qq && apt-get install --no-install-recommends -y \
         apache2 \
+        curl \
         libapache2-mod-php5 \
         php5-cli \
         php5-mysql \
@@ -28,7 +29,6 @@ RUN rm -rf /var/www && \
     mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/apache2 /var/www/httpdocs /var/www/log && \
     chown -R www-data:www-data /var/lock/apache2 /var/run/apache2 /var/log/apache2 /var/www && \
     chmod 777 /var/www/log
-
 
 # Apache + PHP requires preforking Apache for best results
 RUN a2enmod rewrite && a2enmod php5
