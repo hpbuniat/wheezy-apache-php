@@ -23,6 +23,7 @@ RUN echo "deb http://dotdeb.netmirror.org/ wheezy all" >> /etc/apt/source.list &
         php5-mcrypt \
         libssh2-php \
         supervisor \
+        sudo \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN rm -rf /var/www && \
