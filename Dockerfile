@@ -6,8 +6,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get upgrade -y
 
 # install php and apache and clean up to minimize the image size
-RUN echo "deb http://dotdeb.netmirror.org/ wheezy all" >> /etc/apt/source.list && \
-    echo "deb-src http://dotdeb.netmirror.org/ wheezy all" >> /etc/apt/source.list && \
+RUN echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/source.list && \
+    echo "deb-src http://packages.dotdeb.org wheezy all" >> /etc/apt/source.list && \
     apt-get install -y wget && \
     wget http://www.dotdeb.org/dotdeb.gpg && \
     apt-key add dotdeb.gpg && \
