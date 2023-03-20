@@ -3,15 +3,25 @@ MAINTAINER Tibor Sári <tiborsari@gmx.de>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get upgrade -y
+# updat edebian
+COPY sources.list /etc/apt/
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install --no-install-recommends --yes --force-yes \
+        apt-transport-https  \
+        ca-certificates \
+        debian-keyring  \
+        debian-archive-keyring \
+    && apt-key update
+
+# add dotdeb
+COPY dotdeb.list /etc/apt/
+COPY dotdeb.gpg /tmp/
+RUN echo "Acquire::Check-Valid-Until false;" | tee -a /etc/apt/apt.conf.d/10-nocheckvalid && \
+    apt-key add /tmp/dotdeb.gpg && \
+    apt-get update && apt-get upgrade -y
 
 # install php and apache and clean up to minimize the image size
-RUN echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/source.list && \
-    echo "deb-src http://packages.dotdeb.org wheezy all" >> /etc/apt/source.list && \
-    apt-get install -y wget && \
-    wget http://www.dotdeb.org/dotdeb.gpg && \
-    apt-key add dotdeb.gpg && \
-    apt-get update -qq && apt-get install --no-install-recommends -y \
+RUN apt-get update -qq && apt-get install --no-install-recommends --yes --force-yes \
         apache2 \
         curl \
         libapache2-mod-php5 \
