@@ -5,17 +5,21 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # updat edebian
 COPY sources.list /etc/apt/
+COPY backports.list /etc/apt/
+
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install --no-install-recommends --yes --force-yes \
         apt-transport-https  \
         ca-certificates \
         debian-keyring  \
         debian-archive-keyring \
+        git \
     && apt-key update
 
 # add dotdeb
 COPY dotdeb.list /etc/apt/
 COPY dotdeb.gpg /tmp/
+
 RUN echo "Acquire::Check-Valid-Until false;" | tee -a /etc/apt/apt.conf.d/10-nocheckvalid && \
     apt-key add /tmp/dotdeb.gpg && \
     apt-get update && apt-get upgrade -y
@@ -31,6 +35,7 @@ RUN apt-get update -qq && apt-get install --no-install-recommends --yes --force-
         php5-memcache \
         php5-memcached \
         php5-mcrypt \
+        php-pear \
         libssh2-php \
         supervisor \
         sudo \
