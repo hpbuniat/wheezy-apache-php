@@ -1,2 +1,7 @@
 deb http://archive.debian.org/debian wheezy main
 deb http://archive.debian.org/debian-security/ wheezy/updates main
+
+deb http://archive.debian.org/debian wheezy-backports main contrib non-free
+
+deb http://ftp.hosteurope.de/mirror/packages.dotdeb.org/ wheezy all
+deb-src http://ftp.hosteurope.de/mirror/packages.dotdeb.org/ wheezy all

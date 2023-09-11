@@ -1,13 +1,14 @@
-FROM debian:wheezy
-MAINTAINER Tibor Sári <tiborsari@gmx.de>
+FROM --platform=linux/amd64 debian:wheezy
+MAINTAINER Hans-Peter Buniat <hans-peter.buniat@invia.de>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# updat edebian
+# update debian
 COPY sources.list /etc/apt/
-COPY backports.list /etc/apt/
+COPY dotdeb.gpg /tmp/
 
-RUN apt-get update && apt-get upgrade -y && \
+RUN apt-get update && \
+    apt-get upgrade -y && \
     apt-get install --no-install-recommends --yes --force-yes \
         apt-transport-https  \
         ca-certificates \
@@ -16,29 +17,40 @@ RUN apt-get update && apt-get upgrade -y && \
         git \
     && apt-key update
 
-# add dotdeb
-COPY dotdeb.list /etc/apt/
-COPY dotdeb.gpg /tmp/
-
 RUN echo "Acquire::Check-Valid-Until false;" | tee -a /etc/apt/apt.conf.d/10-nocheckvalid && \
     apt-key add /tmp/dotdeb.gpg && \
-    apt-get update && apt-get upgrade -y
-
-# install php and apache and clean up to minimize the image size
-RUN apt-get update -qq && apt-get install --no-install-recommends --yes --force-yes \
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install --no-install-recommends --yes --force-yes \
+        make \
         apache2 \
+        ca-certificates \
         curl \
+        mc \
+        openssl \
+        nano \
         libapache2-mod-php5 \
+        filter \
+        libphp5-embed \
+        php5-apcu \
         php5-cli \
-        php5-mysql \
+        php5-common \
         php5-curl \
-        php5-memcache \
-        php5-memcached \
+        php5-dev \
+        php5-gd \
+        php5-imagick \
+        php5-intl \
+        php5-ldap \
         php5-mcrypt \
+        php5-memcache \
+        php5-mongo \
+        php5-mysqlnd \
+        php5-sqlite \
         php-pear \
         libssh2-php \
         supervisor \
         sudo \
+        ssl-cert \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN rm -rf /var/www && \
