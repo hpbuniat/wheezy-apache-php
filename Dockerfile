@@ -112,6 +112,9 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 # Update the default apache site with the config we created.
 COPY apache2/apache2.conf /etc/apache2/sites-enabled/000-default
 COPY apache2/ports.conf /etc/apache2/ports.conf
+COPY apache2/docker.conf /etc/apache2/conf.d/docker.conf
+COPY apache2/default-ssl.conf /etc/apache2/sites-available/default-ssl
+
 
 EXPOSE 80 443
 
