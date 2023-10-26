@@ -29,10 +29,9 @@ RUN echo "Acquire::Check-Valid-Until false;" | tee -a /etc/apt/apt.conf.d/10-noc
         mc \
         openssl \
         nano \
-        libapache2-mod-php5 \
         filter \
+        libapache2-mod-php5 \
         libphp5-embed \
-        php5-apcu \
         php5-cli \
         php5-common \
         php5-curl \
@@ -47,7 +46,6 @@ RUN echo "Acquire::Check-Valid-Until false;" | tee -a /etc/apt/apt.conf.d/10-noc
         php5-mysqlnd \
         php5-sqlite \
         php5-xdebug \
-        php5-zendopcache \
         php-pear \
         libssh2-php \
         supervisor \
@@ -87,10 +85,6 @@ RUN a2enmod rewrite && \
     a2enmod status
 
 RUN a2ensite default-ssl
-
-# configure zend opcache
-COPY php/zendopcache.ini /etc/php5/apache2/conf.d/05-zendopcache.ini
-RUN sed -i -e '1izend_extension=\'`find / -name "zendopcache.so"` /etc/php5/apache2/conf.d/05-zendopcache.ini
 
 # install xdebug and use our own xdebug configuration
 RUN pecl channel-update pecl.php.net && \
